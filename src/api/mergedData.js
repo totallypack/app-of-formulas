@@ -1,8 +1,8 @@
 import getSingleRecipe from './recipeData';
 
-const viewRecipeDetails = (firebaseKey) =>
+const viewRecipeDetails = (id) =>
   new Promise((resolve, reject) => {
-    Promise.all([getSingleRecipe(firebaseKey)])
+    Promise.all([getSingleRecipe(id)])
       .then(([recipeObject]) => {
         resolve({
           ...recipeObject,

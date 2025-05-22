@@ -1,3 +1,5 @@
+// https://firebase.google.com/docs/database/web/read-and-write
+
 import { clientCredentials } from '@/utils/client';
 
 const endpoint = clientCredentials.databaseURL;
@@ -18,7 +20,7 @@ const getRecipe = (uid) =>
 
         const allRecipes = Object.entries(data).map(([key, value]) => ({
           ...value,
-          firebaseKey: key,
+          id: key,
         }));
 
         const userRecipes = allRecipes.filter((recipe) => recipe.uid === uid || recipe.userId === uid);
@@ -48,7 +50,7 @@ const getEveryRecipe = () =>
 
         const recipes = Object.entries(data).map(([key, value]) => ({
           ...value,
-          firebaseKey: key,
+          id: key,
         }));
 
         console.log(`Retrieved ${recipes.length} recipes with keys`);
@@ -60,9 +62,9 @@ const getEveryRecipe = () =>
       });
   });
 
-const getSingleRecipe = (firebaseKey) =>
+const getSingleRecipe = (id) =>
   new Promise((resolve) => {
-    fetch(`${endpoint}/formula/${firebaseKey}.json`, {
+    fetch(`${endpoint}/formula/${id}.json`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -71,19 +73,19 @@ const getSingleRecipe = (firebaseKey) =>
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          return resolve({ ...data, firebaseKey });
+          return resolve({ ...data, id });
         }
         return resolve(null);
       })
       .catch((error) => {
-        console.error(`Error fetching recipe ${firebaseKey}:`, error);
+        console.error(`Error fetching recipe ${id}:`, error);
         return resolve(null);
       });
   });
 
-const deleteRecipe = (firebaseKey) =>
+const deleteRecipe = (id) =>
   new Promise((resolve, reject) => {
-    fetch(`${endpoint}/formula/${firebaseKey}.json`, {
+    fetch(`${endpoint}/formula/${id}.json`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -91,18 +93,18 @@ const deleteRecipe = (firebaseKey) =>
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(`Successfully deleted recipe with key: ${firebaseKey}`);
+        console.log(`Successfully deleted recipe with key: ${id}`);
         return resolve(data);
       })
       .catch((error) => {
-        console.error(`Error deleting recipe ${firebaseKey}:`, error);
+        console.error(`Error deleting recipe ${id}:`, error);
         return reject(error);
       });
   });
 
 const updateRecipe = (payload) =>
   new Promise((resolve, reject) => {
-    fetch(`${endpoint}/formula/${payload.firebaseKey}.json`, {
+    fetch(`${endpoint}/formula/${payload.id}.json`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -111,11 +113,11 @@ const updateRecipe = (payload) =>
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(`Successfully updated recipe: ${payload.firebaseKey}`);
+        console.log(`Successfully updated recipe: ${payload.id}`);
         return resolve(data);
       })
       .catch((error) => {
-        console.error(`Error updating recipe ${payload.firebaseKey}:`, error);
+        console.error(`Error updating recipe ${payload.id}:`, error);
         return reject(error);
       });
   });
@@ -135,12 +137,13 @@ const createRecipe = (payload) =>
         }
         return response.json();
       })
-      .then((data) => {
+      .then(async (data) => {
         if (data && data.name) {
-          const firebaseKey = data.name;
-          const recipeWithKey = { ...payload, firebaseKey };
+          const id = data.name;
+          const recipeWithKey = { ...payload, id };
 
-          return updateRecipe(recipeWithKey).then(() => resolve(recipeWithKey));
+          await updateRecipe(recipeWithKey);
+          return resolve(recipeWithKey);
         }
         throw new Error('Failed to get Firebase key');
       })
@@ -149,24 +152,5 @@ const createRecipe = (payload) =>
         return reject(error);
       });
   });
-
-export const testFirebaseConnection = async () => {
-  console.log('Testing Firebase connection...');
-  try {
-    const response = await fetch(`${endpoint}/.json?shallow=true`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    console.log('Firebase connection response:', response.status);
-    const data = await response.json();
-    console.log('Firebase root data:', data);
-    return data;
-  } catch (error) {
-    console.error('Firebase connection test error:', error);
-    return null;
-  }
-};
 
 export { getRecipe, createRecipe, deleteRecipe, getSingleRecipe, updateRecipe, getEveryRecipe };

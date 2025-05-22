@@ -10,15 +10,15 @@ export default function EditRecipe({ params }) {
   const [editItem, setEditItem] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { firebaseKey } = params;
+  const { id } = params;
 
   useEffect(() => {
     const fetchRecipe = async () => {
       try {
         setLoading(true);
-        console.log(`Fetching recipe with key: ${firebaseKey}`);
+        console.log(`Fetching recipe with key: ${id}`);
 
-        const recipeData = await getSingleRecipe(firebaseKey);
+        const recipeData = await getSingleRecipe(id);
         console.log('Recipe data loaded:', recipeData);
 
         if (recipeData) {
@@ -34,12 +34,11 @@ export default function EditRecipe({ params }) {
       }
     };
 
-    if (firebaseKey) {
+    if (id) {
       fetchRecipe();
     }
-  }, [firebaseKey]);
+  }, [id]);
 
-  // Show loading state while fetching data
   if (loading) {
     return (
       <Container className="py-5 text-center">
@@ -48,7 +47,6 @@ export default function EditRecipe({ params }) {
     );
   }
 
-  // Show error message if there was a problem
   if (error) {
     return (
       <Container className="py-5 text-center">
@@ -57,12 +55,11 @@ export default function EditRecipe({ params }) {
     );
   }
 
-  // Only render the form when we have the data
   return <RecipeForm obj={editItem} />;
 }
 
 EditRecipe.propTypes = {
   params: PropTypes.shape({
-    firebaseKey: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   }).isRequired,
 };

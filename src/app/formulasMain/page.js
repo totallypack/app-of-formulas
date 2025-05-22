@@ -2,7 +2,7 @@
 
 /* eslint-disable react/no-unescaped-entities */
 
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getEveryRecipe, getRecipe } from '@/api/recipeData';
 import RecipeCard from '@/components/recipeCard';
 import { useAuth } from '@/utils/context/authContext';
@@ -24,9 +24,9 @@ export default function FormulaMain() {
         const allRecipes = await getEveryRecipe();
         console.log('FormulaMain received recipes:', allRecipes);
 
-        const missingKeys = allRecipes.filter((recipe) => !recipe.firebaseKey);
+        const missingKeys = allRecipes.filter((recipe) => !recipe.id);
         if (missingKeys.length > 0) {
-          console.warn('Some recipes are missing firebaseKey:', missingKeys);
+          console.warn('Some recipes are missing id:', missingKeys);
         }
 
         setRecipes(allRecipes);
@@ -61,7 +61,7 @@ export default function FormulaMain() {
     }
   };
 
-  const filteredRecipes = useMemo(() => recipes.filter((formula) => formula?.title?.toLowerCase().includes(searchTerm.toLowerCase()) || formula?.description?.toLowerCase().includes(searchTerm.toLowerCase())), [recipes, searchTerm]);
+  const filteredRecipes = recipes.filter((formula) => formula?.title?.toLowerCase().includes(searchTerm.toLowerCase()) || formula?.description?.toLowerCase().includes(searchTerm.toLowerCase()));
 
   const displayedRecipes = activeTab === 'all' ? filteredRecipes : userRecipes;
 
@@ -95,7 +95,7 @@ export default function FormulaMain() {
     return (
       <Row>
         {displayedRecipes.map((formula) => (
-          <Col key={formula?.firebaseKey || Math.random()} md={4} className="mb-4">
+          <Col key={formula?.id || Math.random()} md={4} className="mb-4">
             <RecipeCard recipeObj={formula} onUpdate={handleUpdate} />
           </Col>
         ))}
