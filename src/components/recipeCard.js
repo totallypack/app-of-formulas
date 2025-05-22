@@ -10,7 +10,7 @@ import { useAuth } from '@/utils/context/authContext';
 
 export default function RecipeCard({ recipeObj, onUpdate }) {
   console.log('RecipeCard received object:', recipeObj);
-  console.log('RecipeCard firebaseKey:', recipeObj?.firebaseKey);
+  console.log('RecipeCard id:', recipeObj?.id);
   const { user } = useAuth();
   const isCreator = user?.uid === (recipeObj?.uid || recipeObj?.userId);
 
@@ -28,15 +28,15 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
     e.preventDefault();
 
     console.log('Full recipe object:', recipeObj);
-    console.log('Firebase key:', recipeObj.firebaseKey);
+    console.log('Firebase key:', recipeObj.id);
 
-    if (!recipeObj.firebaseKey) {
+    if (!recipeObj.id) {
       alert('Cannot delete this recipe: Missing recipe ID');
       return;
     }
 
     if (window.confirm(`Delete ${recipeObj.title}?`)) {
-      deleteRecipe(recipeObj.firebaseKey)
+      deleteRecipe(recipeObj.id)
         .then(() => {
           console.log('Recipe deleted successfully');
           onUpdate();
@@ -61,14 +61,14 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
           {recipeObj.description?.length > 100 ? '...' : ''}
         </Card.Text>
         <div className="mt-auto pt-3">
-          <Link href={`/formulas/${recipeObj.firebaseKey}`} passHref>
+          <Link href={`/formulas/${recipeObj.id}`} passHref>
             <Button variant="primary" className="w-100 mb-2">
               View Details
             </Button>
           </Link>
           {isCreator && (
             <div className="d-flex gap-2">
-              <Link href={`/formulas/edit/${recipeObj.firebaseKey}`} passHref style={{ flex: 1 }}>
+              <Link href={`/formulas/edit/${recipeObj.id}`} passHref style={{ flex: 1 }}>
                 <Button variant="outline-secondary" className="w-100" type="button">
                   Edit
                 </Button>
@@ -90,7 +90,7 @@ RecipeCard.propTypes = {
     description: PropTypes.string,
     image: PropTypes.string,
     category: PropTypes.string,
-    firebaseKey: PropTypes.string,
+    id: PropTypes.string,
     uid: PropTypes.string,
     hobbyId: PropTypes.string,
     favorite: PropTypes.bool,

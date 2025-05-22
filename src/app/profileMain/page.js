@@ -17,37 +17,36 @@ export default function UserComponent() {
   const { user, userLoading } = useAuth();
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (!user) return;
-
-      setIsLoading(true);
-      try {
-        const userRef = ref(database, `user/${user.uid}`);
-        const snapshot = await get(userRef);
-
-        if (snapshot.exists()) {
-          setUserProfile(snapshot.val());
+    const fetchData = async () => {
+      if (user && !userLoading) {
+        if (typeof window !== 'undefined') {
+          UpdateUserData({
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+          });
         }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      } finally {
+
+        setIsLoading(true);
+        try {
+          const userRef = ref(database, `user/${user.uid}`);
+          const snapshot = await get(userRef);
+
+          if (snapshot.exists()) {
+            setUserProfile(snapshot.val());
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else if (!userLoading) {
         setIsLoading(false);
       }
     };
 
-    if (user && !userLoading) {
-      if (typeof window !== 'undefined') {
-        UpdateUserData({
-          uid: user.uid,
-          displayName: user.displayName,
-          email: user.email,
-          photoURL: user.photoURL,
-        });
-      }
-      fetchUserData();
-    } else if (!userLoading) {
-      setIsLoading(false);
-    }
+    fetchData();
   }, [user, userLoading]);
 
   if (userLoading || isLoading) {

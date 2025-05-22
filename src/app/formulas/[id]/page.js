@@ -15,13 +15,10 @@ export default function ViewRecipe({ params }) {
   const [error, setError] = useState(null);
   const { user } = useAuth();
 
-  // grab firebaseKey from url
-  const { firebaseKey } = params;
-
-  // make call to API layer to get the data
+  const { id } = params;
   useEffect(() => {
     setLoading(true);
-    getSingleRecipe(firebaseKey)
+    getSingleRecipe(id)
       .then((data) => {
         setRecipeDetails(data);
         setLoading(false);
@@ -31,9 +28,8 @@ export default function ViewRecipe({ params }) {
         setError('Failed to load recipe details');
         setLoading(false);
       });
-  }, [firebaseKey]);
+  }, [id]);
 
-  // Check if the current user is the creator of this recipe
   const isCreator = user?.uid === (recipeDetails?.uid || recipeDetails?.userId);
 
   if (loading) {
@@ -86,7 +82,7 @@ export default function ViewRecipe({ params }) {
 
               {isCreator && (
                 <div className="d-flex gap-2 mt-3">
-                  <Link href={`/formulas/edit/${firebaseKey}`} passHref style={{ flex: 1 }}>
+                  <Link href={`/formulas/edit/${id}`} passHref style={{ flex: 1 }}>
                     <Button variant="outline-secondary" className="w-100">
                       Edit
                     </Button>
@@ -133,6 +129,6 @@ export default function ViewRecipe({ params }) {
 
 ViewRecipe.propTypes = {
   params: PropTypes.shape({
-    firebaseKey: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   }).isRequired,
 };

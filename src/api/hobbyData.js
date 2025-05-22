@@ -28,8 +28,8 @@ const getEveryHobby = () =>
       .catch(reject);
   });
 
-const getSingleHobby = async (firebaseKey) => {
-  const del = await fetch(`${endpoint}/hobby/${firebaseKey}.json`, {
+const getSingleHobby = async (id) => {
+  const del = await fetch(`${endpoint}/hobby/${id}.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

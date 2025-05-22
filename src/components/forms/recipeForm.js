@@ -26,7 +26,7 @@ export default function RecipeForm({ obj = initialState }) {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (obj.firebaseKey) {
+    if (obj.id) {
       console.log('Received object with data to edit:', obj);
       setFormInput(obj);
     }
@@ -45,7 +45,7 @@ export default function RecipeForm({ obj = initialState }) {
       return 'Saving...';
     }
 
-    if (obj.firebaseKey) {
+    if (obj.id) {
       return 'Update Recipe';
     }
 
@@ -64,12 +64,12 @@ export default function RecipeForm({ obj = initialState }) {
 
     setIsSubmitting(true);
 
-    if (formInput.firebaseKey) {
+    if (formInput.id) {
       // Update existing recipe
       updateRecipe(formInput)
         .then(() => {
           console.log('Recipe updated successfully');
-          router.push(`/formulas/${formInput.firebaseKey}`);
+          router.push(`/formulas/${formInput.id}`);
         })
         .catch((error) => {
           console.error('Error updating recipe:', error);
@@ -102,8 +102,8 @@ export default function RecipeForm({ obj = initialState }) {
             <Card className="border-0 shadow-sm">
               <Card.Body className="p-4">
                 <div className="mb-4">
-                  <h2 className="mb-1">{obj.firebaseKey ? 'Update' : 'Create New'} Recipe</h2>
-                  <p className="text-muted">{obj.firebaseKey ? 'Update the information for your recipe below.' : 'Fill out the form below to add your recipe.'}</p>
+                  <h2 className="mb-1">{obj.id ? 'Update' : 'Create New'} Recipe</h2>
+                  <p className="text-muted">{obj.id ? 'Update the information for your recipe below.' : 'Fill out the form below to add your recipe.'}</p>
                 </div>
 
                 <Form noValidate validated={validated} onSubmit={handleSubmit}>
