@@ -16,9 +16,9 @@ The user can learn about new things every time they log in with a Random Formula
 WALKTHROUGH OF APP OF FORMULAS:
 https://www.loom.com/share/60c72b3fbb45444794baf3cb16436f8e?sid=d979ae49-8e90-4997-88d5-466b2b2601af
 
-![1st screenshot](public/images/MVP 1.png)
-![2nd screenshot](public/images/MVP 2.png)
-![3rd screenshot](public/images/MVP 3.png)
+![1st screenshot](public/images/mvp1.png)
+![2nd screenshot](public/images/mvp2.png)
+![3rd screenshot](public/images/mvp3.png)
 
 WIREFRAME AND ERD:
 https://app.diagrams.net/?splash=0#G119uXUVbwyVTeBRUapWFmBcFWqUv_DAfY#%7B%22pageId%22%3A%22yC0dfsThMRpy-qJWlGmE%22%7D
