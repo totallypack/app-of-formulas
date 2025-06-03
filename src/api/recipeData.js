@@ -122,6 +122,42 @@ const updateRecipe = (payload) =>
       });
   });
 
+const toggleFavorite = (recipeId, currentFavoriteStatus) =>
+  new Promise((resolve, reject) => {
+    getSingleRecipe(recipeId)
+      .then((recipe) => {
+        if (!recipe) {
+          throw new Error('Recipe not found');
+        }
+
+        const updatedRecipe = {
+          ...recipe,
+          favorite: !currentFavoriteStatus,
+        };
+
+        fetch(`${endpoint}/formula/${recipeId}.json`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedRecipe),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(`Successfully ${!currentFavoriteStatus ? 'favorited' : 'unfavorited'} recipe: ${recipeId}`);
+            return resolve(updatedRecipe, data);
+          })
+          .catch((error) => {
+            console.error(`Error toggling favorite for recipe ${recipeId}:`, error);
+            return reject(error);
+          });
+      })
+      .catch((error) => {
+        console.error(`Error fetching recipe ${recipeId}:`, error);
+        return reject(error);
+      });
+  });
+
 const createRecipe = (payload) =>
   new Promise((resolve, reject) => {
     fetch(`${endpoint}/formula.json`, {
@@ -153,4 +189,4 @@ const createRecipe = (payload) =>
       });
   });
 
-export { getRecipe, createRecipe, deleteRecipe, getSingleRecipe, updateRecipe, getEveryRecipe };
+export { getRecipe, createRecipe, deleteRecipe, getSingleRecipe, updateRecipe, getEveryRecipe, toggleFavorite };

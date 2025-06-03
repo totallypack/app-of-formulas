@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Link from 'next/link';
-import { getSingleRecipe } from '@/api/recipeData';
+import { getSingleRecipe, toggleFavorite } from '@/api/recipeData';
 import { useAuth } from '@/utils/context/authContext';
 
 export default function ViewRecipe({ params }) {
@@ -73,6 +73,24 @@ export default function ViewRecipe({ params }) {
     );
   }
 
+  const handleToggleFavorite = () => {
+    if (!recipeDetails.id) {
+      alert('Cannot favorite this recipe: Missing recipe ID');
+      return;
+    }
+
+    toggleFavorite(recipeDetails.id, recipeDetails.favorite)
+      .then((updatedRecipe) => {
+        console.log('Recipe favorite status updated successfully');
+        setRecipeDetails(updatedRecipe);
+      })
+      .catch(() => {
+        console.error('Error updating favorite status:', error);
+        alert('An error occurred while updating favorite status. Please try again.');
+      })
+      .finally(() => {});
+  };
+
   return (
     <div className="vintage-paper" style={{ minHeight: '100vh' }}>
       <div className="vintage-container">
@@ -111,7 +129,7 @@ export default function ViewRecipe({ params }) {
                 </p>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <div
+                {/* <div
                   style={{
                     fontSize: '10px',
                     fontFamily: 'var(--font-mono)',
@@ -134,8 +152,8 @@ export default function ViewRecipe({ params }) {
                     borderRadius: 'var(--border-radius)',
                   }}
                 >
-                  {id?.slice(-8).toUpperCase() || 'UNKNOWN'}
-                </div>
+                  {user?.toUpperCase() || 'UNKNOWN'}
+                </div> */}
               </div>
             </div>
           </div>
@@ -334,6 +352,20 @@ export default function ViewRecipe({ params }) {
                 >
                   🎛️ Control Panel
                 </h4>
+
+                <Button
+                  className={`btn-analog ${recipeDetails.favorite ? 'btn-analog-primary' : 'btn-analog-secondary'}`}
+                  onClick={handleToggleFavorite}
+                  style={{
+                    width: '100%',
+                    fontSize: '11px',
+                    marginBottom: '0.75rem',
+                    background: recipeDetails.favorite ? 'var(--golden-yellow)' : 'var(--light-gray)',
+                    color: recipeDetails.favorite ? 'var(--deep-black)' : 'var(--charcoal)',
+                  }}
+                >
+                  {recipeDetails.favorite ? '⭐ Remove from Favorites' : '☆ Add to Favorites'}
+                </Button>
 
                 {isCreator ? (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>

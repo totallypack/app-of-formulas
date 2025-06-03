@@ -76,23 +76,6 @@ function Home() {
           <h2 style={{ color: 'var(--charcoal)', fontSize: '1.2rem' }}>Welcome, {user.displayName}!</h2>
           <p style={{ color: 'var(--warm-gray)', margin: '1rem 0' }}>Access Confirmed</p>
 
-          {/* <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '1rem',
-            margin: '1.5rem 0',
-          }}>
-            <div className="category-badge category-chemical">
-              Chemical Formulas
-            </div>
-            <div className="category-badge category-edible">
-              Edible Recipes
-            </div>
-            <div className="category-badge category-cleaner" style={{ gridColumn: 'span 2' }}>
-              Cleaning Solutions
-            </div>
-          </div> */}
-
           {/* Quick Stats */}
           <div
             style={{

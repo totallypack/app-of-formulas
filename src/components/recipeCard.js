@@ -2,14 +2,16 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
-import { deleteRecipe } from '@/api/recipeData';
+import { deleteRecipe, toggleFavorite } from '@/api/recipeData';
 import { useAuth } from '@/utils/context/authContext';
 
 export default function RecipeCard({ recipeObj, onUpdate }) {
+  const [isUpdating, setIsUpdating] = useState(false);
+
   console.log('RecipeCard received object:', recipeObj);
   console.log('RecipeCard id:', recipeObj?.id);
   const { user } = useAuth();
@@ -51,9 +53,33 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
     }
   };
 
+  const handleToggleFavorite = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!recipeObj.id) {
+      alert('Cannot favorite this recipe: Missing recipe ID');
+      return;
+    }
+
+    setIsUpdating(true);
+    toggleFavorite(recipeObj.id, recipeObj.favorite)
+      .then(() => {
+        console.log('Recipe favorite status updated successfully');
+        onUpdate();
+      })
+      .catch((error) => {
+        console.error('Error updating favorite status:', error);
+        alert('An error occurred while updating favorite status. Please try again.');
+      })
+      .finally(() => {
+        setIsUpdating(false);
+      });
+  };
+
   return (
     <div className="recipe-card-analog" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      {/* Laboratory Card Header */}
+      {/* Card Header */}
       <div
         className="card-header"
         style={{
@@ -75,34 +101,38 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
           >
             {recipeObj.title}
           </h5>
-          <div
-            className={`category-badge category-${recipeObj.category}`}
-            style={{
-              marginLeft: '0.5rem',
-              flexShrink: 0,
-            }}
-          >
-            {recipeObj.category}
-          </div>
-        </div>
 
-        {/* Formula ID Badge */}
-        <div
-          style={{
-            fontSize: '8px',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--charcoal)',
-            textTransform: 'uppercase',
-            letterSpacing: '0.5px',
-            marginTop: '0.5rem',
-            opacity: 0.7,
-          }}
-        >
-          ID: {recipeObj.id?.slice(-6) || 'PENDING'}
+          {/* Badges */}
+          <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0, marginLeft: '0.5rem' }}>
+            <div className={`category-badge category-${recipeObj.category}`}>{recipeObj.category}</div>
+
+            {/* Favorite Badge */}
+            {recipeObj.favorite && (
+              <div
+                style={{
+                  background: 'var(--golden-yellow)',
+                  color: 'var(--deep-black)',
+                  padding: '0.25rem 0.5rem',
+                  fontSize: '8px',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                  borderRadius: 'var(--border-radius)',
+                  border: '1px solid var(--charcoal)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.25rem',
+                }}
+              >
+                ⭐ FAV
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Image Section with Laboratory Feel */}
+      {/* Image Section */}
       <div
         style={{
           height: '160px',
@@ -142,7 +172,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
           </div>
         )}
 
-        {/* Laboratory Grid Overlay */}
+        {/* Grid Overlay */}
         <div
           style={{
             position: 'absolute',
@@ -188,6 +218,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
 
         {/* Control Panel */}
         <div style={{ marginTop: 'auto' }}>
+          {/* Primary Action - View Formula */}
           <Link href={`/formulas/${recipeObj.id}`} passHref>
             <Button
               variant="primary"
@@ -202,56 +233,92 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
             </Button>
           </Link>
 
-          {isCreator && (
-            <div style={{ display: 'flex', gap: '0.5rem' }}>
-              <Link href={`/formulas/edit/${recipeObj.id}`} passHref style={{ flex: 1 }}>
+          {/* Secondary Actions Row */}
+          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
+            <Button
+              variant={recipeObj.favorite ? 'warning' : 'outline-secondary'}
+              className={`btn-analog ${recipeObj.favorite ? 'btn-analog-primary' : 'btn-analog-secondary'}`}
+              onClick={handleToggleFavorite}
+              disabled={isUpdating}
+              style={{
+                flex: 1,
+                fontSize: '10px',
+                background: recipeObj.favorite ? 'var(--golden-yellow)' : 'var(--light-gray)',
+                color: recipeObj.favorite ? 'var(--deep-black)' : 'var(--charcoal)',
+              }}
+              type="button"
+            >
+              {recipeObj.favorite ? '⭐' : '☆'}
+              {recipeObj.favorite ? ' FAV' : ' FAV'}
+            </Button>
+
+            {/* Creator Actions */}
+            {isCreator && (
+              <>
+                <Link href={`/formulas/edit/${recipeObj.id}`} passHref style={{ flex: 1 }}>
+                  <Button
+                    variant="outline-secondary"
+                    className="btn-analog btn-analog-secondary"
+                    style={{
+                      width: '100%',
+                      fontSize: '10px',
+                    }}
+                    type="button"
+                  >
+                    ✏️ EDIT
+                  </Button>
+                </Link>
                 <Button
-                  variant="outline-secondary"
-                  className="btn-analog btn-analog-secondary"
+                  variant="outline-danger"
+                  className="btn-analog btn-analog-danger"
+                  onClick={deleteThisRecipe}
                   style={{
-                    width: '100%',
+                    flex: 1,
                     fontSize: '10px',
                   }}
                   type="button"
                 >
-                  ✏️ EDIT
+                  🗑️ DELETE
                 </Button>
-              </Link>
-              <Button
-                variant="outline-danger"
-                className="btn-analog btn-analog-danger"
-                onClick={deleteThisRecipe}
-                style={{
-                  flex: 1,
-                  fontSize: '10px',
-                }}
-                type="button"
-              >
-                🗑️ DELETE
-              </Button>
-            </div>
-          )}
+              </>
+            )}
+          </div>
 
-          {/* Creator Badge */}
-          {isCreator && (
+          {/* Status Indicators */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {/* Creator Badge */}
+            {isCreator && (
+              <div
+                style={{
+                  fontSize: '8px',
+                  color: 'var(--mint-green)',
+                  fontFamily: 'var(--font-mono)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                ● Your Research
+              </div>
+            )}
+
+            {/* Favorite Status */}
             <div
               style={{
-                marginTop: '0.5rem',
                 fontSize: '8px',
-                textAlign: 'center',
-                color: 'var(--mint-green)',
+                color: 'var(--warm-gray)',
                 fontFamily: 'var(--font-mono)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.5px',
+                marginLeft: 'auto',
               }}
             >
-              ● Your Research
+              {recipeObj.favorite ? '⭐ Favorited' : ''}
             </div>
-          )}
+          </div>
         </div>
       </div>
 
-      {/* Laboratory Equipment Border Effect */}
+      {/* Border Effect */}
       <div
         style={{
           position: 'absolute',

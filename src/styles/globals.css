@@ -42,7 +42,7 @@ body {
   line-height: 1.6;
   letter-spacing: 0.5px;
   
-  /* Subtle texture overlay */
+  /* Subtle Texture Overlay */
   background-image: 
     radial-gradient(circle at 1px 1px, rgba(44, 44, 44, 0.1) 1px, transparent 0);
   background-size: 20px 20px;
@@ -83,7 +83,7 @@ p {
   margin-bottom: calc(var(--grid-unit) * 3);
   position: relative;
   
-  /* Vintage drop shadow */
+  /* Drop Shadow */
   box-shadow: 
     4px 4px 0px var(--charcoal),
     inset 0 0 0 1px rgba(116, 180, 155, 0.2);
@@ -144,7 +144,7 @@ p {
   color: var(--warm-white);
 }
 
-/* Form Controls - Laboratory Equipment Inspired */
+/* Form Controls */
 .form-analog {
   margin-bottom: calc(var(--grid-unit) * 3);
 }
@@ -182,7 +182,7 @@ p {
   box-shadow: 0 0 0 2px rgba(116, 180, 155, 0.3);
 }
 
-/* Navigation - Control Panel Style */
+/* Navigation */
 .navbar-analog {
   background: var(--charcoal) !important;
   border-bottom: 3px solid var(--mint-green);
@@ -215,7 +215,7 @@ p {
   color: var(--charcoal) !important;
 }
 
-/* Tabs - Analog Switch Style */
+/* Tabs */
 .nav-tabs-analog {
   border-bottom: 2px solid var(--charcoal);
   margin-bottom: calc(var(--grid-unit) * 3);
@@ -240,7 +240,7 @@ p {
   margin-bottom: -2px;
 }
 
-/* Recipe Cards - Laboratory Cards */
+/* Recipe Cards */
 .recipe-card-analog {
   background: var(--warm-white);
   border: 2px solid var(--charcoal);
@@ -274,7 +274,7 @@ p {
   padding: calc(var(--grid-unit) * 2);
 }
 
-/* Search Bar - Scientific Instrument Style */
+/* Search Bar */
 .search-analog {
   position: relative;
   margin-bottom: calc(var(--grid-unit) * 3);
@@ -319,7 +319,7 @@ p {
   100% { transform: rotate(360deg); }
 }
 
-/* Footer - Technical Manual Style */
+/* Footer */
 .footer-analog {
   background: var(--charcoal);
   color: var(--cream);
@@ -395,7 +395,7 @@ p {
 .mt-analog { margin-top: calc(var(--grid-unit) * 2); }
 .p-analog { padding: calc(var(--grid-unit) * 2); }
 
-/* Special Effects for Vintage Feel */
+/* Special Effects for a Vintage Feel */
 .vintage-paper {
   background: var(--warm-white);
   background-image: 
@@ -410,7 +410,7 @@ p {
     0 0 15px rgba(116, 180, 155, 0.1);
 }
 
-/* Override Bootstrap defaults here */
+/* Override Bootstrap Defaults */
 .btn-primary {
   @extend .btn-analog;
   @extend .btn-analog-primary;
