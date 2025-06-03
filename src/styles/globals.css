@@ -1,4 +1,451 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  /* 1950s Color Palette */
+  --cream: #f7f3e9;
+  --warm-white: #faf8f3;
+  --charcoal: #2c2c2c;
+  --deep-black: #1a1a1a;
+  --vintage-red: #d63447;
+  --mint-green: #74b49b;
+  --golden-yellow: #f4b942;
+  --steel-blue: #4a6fa5;
+  --warm-gray: #6c6c6c;
+  --light-gray: #e8e6e0;
+  
+  /* Analog/Technical Colors */
+  --amber: #ffb347;
+  --copper: #b87333;
+  --brass: #b5a642;
+  
+  /* Typography */
+  --font-mono: 'Space Mono', 'IBM Plex Mono', monospace;
+  --font-sans: 'IBM Plex Mono', monospace;
+  
+  /* Spacing based on analog grid systems */
+  --grid-unit: 8px;
+  --border-radius: 2px;
+}
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background: black;
-  color: white;
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  
+  /* Subtle texture overlay */
+  background-image: 
+    radial-gradient(circle at 1px 1px, rgba(44, 44, 44, 0.1) 1px, transparent 0);
+  background-size: 20px 20px;
+  background-attachment: fixed;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: calc(var(--grid-unit) * 2);
+  color: var(--deep-black);
+}
+
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+
+p {
+  margin-bottom: calc(var(--grid-unit) * 2);
+  color: var(--warm-gray);
+}
+
+/* Analog-Inspired Components */
+.vintage-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: calc(var(--grid-unit) * 3);
+}
+
+.analog-card {
+  background: var(--warm-white);
+  border: 2px solid var(--charcoal);
+  border-radius: var(--border-radius);
+  padding: calc(var(--grid-unit) * 3);
+  margin-bottom: calc(var(--grid-unit) * 3);
+  position: relative;
+  
+  /* Vintage drop shadow */
+  box-shadow: 
+    4px 4px 0px var(--charcoal),
+    inset 0 0 0 1px rgba(116, 180, 155, 0.2);
+}
+
+.analog-card::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid var(--light-gray);
+  pointer-events: none;
+  border-radius: var(--border-radius);
+}
+
+/* Button Styles - Analog Control Panel Inspired */
+.btn-analog {
+  background: var(--mint-green);
+  border: 2px solid var(--charcoal);
+  color: var(--deep-black);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: calc(var(--grid-unit) * 1.5) calc(var(--grid-unit) * 3);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-analog:hover {
+  background: var(--golden-yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0px var(--charcoal);
+}
+
+.btn-analog:active {
+  transform: translate(0, 0);
+  box-shadow: 2px 2px 0px var(--charcoal);
+}
+
+.btn-analog-secondary {
+  background: var(--light-gray);
+  color: var(--charcoal);
+}
+
+.btn-analog-danger {
+  background: var(--vintage-red);
+  color: var(--warm-white);
+}
+
+.btn-analog-primary {
+  background: var(--steel-blue);
+  color: var(--warm-white);
+}
+
+/* Form Controls - Laboratory Equipment Inspired */
+.form-analog {
+  margin-bottom: calc(var(--grid-unit) * 3);
+}
+
+.form-analog label {
+  display: block;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: calc(var(--grid-unit));
+  color: var(--charcoal);
+  font-size: 12px;
+}
+
+.form-analog input,
+.form-analog textarea,
+.form-analog select {
+  width: 100%;
+  padding: calc(var(--grid-unit) * 1.5);
+  border: 2px solid var(--charcoal);
+  background: var(--warm-white);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  border-radius: var(--border-radius);
+  color: var(--charcoal);
+  transition: all 0.2s ease;
+}
+
+.form-analog input:focus,
+.form-analog textarea:focus,
+.form-analog select:focus {
+  outline: none;
+  border-color: var(--mint-green);
+  box-shadow: 0 0 0 2px rgba(116, 180, 155, 0.3);
+}
+
+/* Navigation - Control Panel Style */
+.navbar-analog {
+  background: var(--charcoal) !important;
+  border-bottom: 3px solid var(--mint-green);
+  padding: calc(var(--grid-unit) * 2) 0;
+}
+
+.navbar-analog .navbar-brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--cream) !important;
+}
+
+.navbar-analog .nav-link {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cream) !important;
+  margin: 0 calc(var(--grid-unit));
+  padding: calc(var(--grid-unit)) calc(var(--grid-unit) * 2) !important;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+}
+
+.navbar-analog .nav-link:hover {
+  background: var(--mint-green);
+  color: var(--charcoal) !important;
+}
+
+/* Tabs - Analog Switch Style */
+.nav-tabs-analog {
+  border-bottom: 2px solid var(--charcoal);
+  margin-bottom: calc(var(--grid-unit) * 3);
+}
+
+.nav-tabs-analog .nav-link {
+  background: var(--light-gray);
+  border: 2px solid var(--charcoal);
+  border-bottom: none;
+  color: var(--charcoal);
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: calc(var(--grid-unit));
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.nav-tabs-analog .nav-link.active {
+  background: var(--mint-green);
+  border-bottom: 2px solid var(--mint-green);
+  margin-bottom: -2px;
+}
+
+/* Recipe Cards - Laboratory Cards */
+.recipe-card-analog {
+  background: var(--warm-white);
+  border: 2px solid var(--charcoal);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.recipe-card-analog:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 6px 6px 0px var(--charcoal);
+}
+
+.recipe-card-analog .card-header {
+  background: var(--mint-green);
+  border-bottom: 2px solid var(--charcoal);
+  padding: calc(var(--grid-unit) * 2);
+}
+
+.recipe-card-analog .card-title {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  color: var(--deep-black);
+}
+
+.recipe-card-analog .card-body {
+  padding: calc(var(--grid-unit) * 2);
+}
+
+/* Search Bar - Scientific Instrument Style */
+.search-analog {
+  position: relative;
+  margin-bottom: calc(var(--grid-unit) * 3);
+}
+
+.search-analog input {
+  padding-left: calc(var(--grid-unit) * 5);
+  background: var(--warm-white);
+  border: 2px solid var(--charcoal);
+}
+
+.search-analog::before {
+  content: '🔍';
+  position: absolute;
+  left: calc(var(--grid-unit) * 2);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  font-size: 16px;
+}
+
+/* Loading Animation - Analog Meter Style */
+.loading-analog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--grid-unit) * 6);
+}
+
+.loading-analog::after {
+  content: '';
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--light-gray);
+  border-top: 3px solid var(--mint-green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Footer - Technical Manual Style */
+.footer-analog {
+  background: var(--charcoal);
+  color: var(--cream);
+  border-top: 3px solid var(--mint-green);
+  padding: calc(var(--grid-unit) * 3) 0;
+  margin-top: calc(var(--grid-unit) * 6);
+  font-family: var(--font-mono);
+  text-align: center;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Category Badges - Chemical Label Style */
+.category-badge {
+  display: inline-block;
+  padding: calc(var(--grid-unit) / 2) calc(var(--grid-unit));
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: var(--border-radius);
+  border: 1px solid;
+  margin-right: calc(var(--grid-unit));
+}
+
+.category-chemical {
+  background: var(--amber);
+  color: var(--deep-black);
+  border-color: var(--copper);
+}
+
+.category-edible {
+  background: var(--mint-green);
+  color: var(--deep-black);
+  border-color: var(--charcoal);
+}
+
+.category-cleaner {
+  background: var(--steel-blue);
+  color: var(--warm-white);
+  border-color: var(--charcoal);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vintage-container {
+    padding: calc(var(--grid-unit) * 2);
+  }
+  
+  .analog-card {
+    padding: calc(var(--grid-unit) * 2);
+  }
+  
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  
+  .btn-analog {
+    padding: calc(var(--grid-unit)) calc(var(--grid-unit) * 2);
+    font-size: 12px;
+  }
+}
+
+/* Utility Classes */
+.text-analog-primary { color: var(--mint-green); }
+.text-analog-secondary { color: var(--steel-blue); }
+.text-analog-muted { color: var(--warm-gray); }
+.bg-analog-primary { background: var(--mint-green); }
+.bg-analog-secondary { background: var(--steel-blue); }
+
+.mb-analog { margin-bottom: calc(var(--grid-unit) * 2); }
+.mt-analog { margin-top: calc(var(--grid-unit) * 2); }
+.p-analog { padding: calc(var(--grid-unit) * 2); }
+
+/* Special Effects for Vintage Feel */
+.vintage-paper {
+  background: var(--warm-white);
+  background-image: 
+    linear-gradient(45deg, transparent 24%, rgba(116, 180, 155, 0.05) 25%, rgba(116, 180, 155, 0.05) 26%, transparent 27%, transparent 74%, rgba(116, 180, 155, 0.05) 75%, rgba(116, 180, 155, 0.05) 76%, transparent 77%);
+  background-size: 30px 30px;
+}
+
+.analog-glow {
+  box-shadow: 
+    0 0 5px rgba(116, 180, 155, 0.3),
+    0 0 10px rgba(116, 180, 155, 0.2),
+    0 0 15px rgba(116, 180, 155, 0.1);
+}
+
+/* Override Bootstrap defaults here */
+.btn-primary {
+  @extend .btn-analog;
+  @extend .btn-analog-primary;
+}
+
+.btn-secondary {
+  @extend .btn-analog;
+  @extend .btn-analog-secondary;
+}
+
+.btn-danger {
+  @extend .btn-analog;
+  @extend .btn-analog-danger;
+}
+
+.card {
+  @extend .analog-card;
+}
+
+.nav-tabs {
+  @extend .nav-tabs-analog;
+}
+
+.navbar-dark {
+  @extend .navbar-analog;
+}
+
+.form-control {
+  @extend .form-analog input;
+}
+
+.form-select {
+  @extend .form-analog select;
+}
+
+.form-label {
+  @extend .form-analog label;
 }

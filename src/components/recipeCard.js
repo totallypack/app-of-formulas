@@ -1,7 +1,8 @@
 'use client';
 
+/* eslint-disable @next/next/no-img-element */
+
 import React from 'react';
-import Card from 'react-bootstrap/Card';
 import Link from 'next/link';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
@@ -16,11 +17,13 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
 
   if (!recipeObj) {
     return (
-      <Card className="h-100 border-0 shadow-sm overflow-hidden recipe-card">
-        <Card.Body>
-          <p>Loading recipe...</p>
-        </Card.Body>
-      </Card>
+      <div className="recipe-card-analog">
+        <div className="card-body analog-glow" style={{ textAlign: 'center', padding: '2rem' }}>
+          <div className="loading-analog">
+            <p style={{ fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>Loading Formula...</p>
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -49,38 +52,219 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
   };
 
   return (
-    <Card className="h-100 border-0 shadow-sm overflow-hidden recipe-card">
-      <div style={{ height: '180px', overflow: 'hidden' }}>
-        <Card.Img variant="top" src={recipeObj.image || '/placeholder-image.png'} className="recipe-image" />
+    <div className="recipe-card-analog" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      {/* Laboratory Card Header */}
+      <div
+        className="card-header"
+        style={{
+          background: 'var(--mint-green)',
+          borderBottom: '2px solid var(--charcoal)',
+          padding: '1rem',
+          position: 'relative',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <h5
+            className="card-title"
+            style={{
+              margin: 0,
+              fontSize: '14px',
+              lineHeight: '1.2',
+              flex: 1,
+            }}
+          >
+            {recipeObj.title}
+          </h5>
+          <div
+            className={`category-badge category-${recipeObj.category}`}
+            style={{
+              marginLeft: '0.5rem',
+              flexShrink: 0,
+            }}
+          >
+            {recipeObj.category}
+          </div>
+        </div>
+
+        {/* Formula ID Badge */}
+        <div
+          style={{
+            fontSize: '8px',
+            fontFamily: 'var(--font-mono)',
+            color: 'var(--charcoal)',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+            marginTop: '0.5rem',
+            opacity: 0.7,
+          }}
+        >
+          ID: {recipeObj.id?.slice(-6) || 'PENDING'}
+        </div>
       </div>
-      <Card.Body className="d-flex flex-column">
-        <Card.Title className="mb-2">{recipeObj.title}</Card.Title>
-        <Card.Text className="text-muted small mb-2">{recipeObj.category}</Card.Text>
-        <Card.Text className="flex-grow-1">
-          {recipeObj.description?.substring(0, 100)}
-          {recipeObj.description?.length > 100 ? '...' : ''}
-        </Card.Text>
-        <div className="mt-auto pt-3">
+
+      {/* Image Section with Laboratory Feel */}
+      <div
+        style={{
+          height: '160px',
+          overflow: 'hidden',
+          position: 'relative',
+          background: 'var(--light-gray)',
+          borderBottom: '1px solid var(--charcoal)',
+        }}
+      >
+        {recipeObj.image ? (
+          <img
+            src={recipeObj.image}
+            alt={recipeObj.title}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'sepia(20%) contrast(1.1)',
+            }}
+          />
+        ) : (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              height: '100%',
+              background: 'var(--light-gray)',
+              color: 'var(--warm-gray)',
+              fontSize: '2rem',
+            }}
+          >
+            {recipeObj.category === 'chemical' && '⚗️'}
+            {recipeObj.category === 'edible' && '🍽️'}
+            {recipeObj.category === 'cleaner' && '🧽'}
+            {!recipeObj.category && '📄'}
+          </div>
+        )}
+
+        {/* Laboratory Grid Overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: `
+            linear-gradient(rgba(44, 44, 44, 0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(44, 44, 44, 0.05) 1px, transparent 1px)
+          `,
+            backgroundSize: '20px 20px',
+            pointerEvents: 'none',
+          }}
+        />
+      </div>
+
+      {/* Card Body */}
+      <div
+        className="card-body"
+        style={{
+          padding: '1rem',
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          background: 'var(--warm-white)',
+        }}
+      >
+        {/* Description */}
+        <div style={{ flex: 1, marginBottom: '1rem' }}>
+          <p
+            style={{
+              fontSize: '12px',
+              color: 'var(--warm-gray)',
+              margin: 0,
+              lineHeight: '1.4',
+            }}
+          >
+            {recipeObj.description?.substring(0, 120)}
+            {recipeObj.description?.length > 120 ? '...' : ''}
+          </p>
+        </div>
+
+        {/* Control Panel */}
+        <div style={{ marginTop: 'auto' }}>
           <Link href={`/formulas/${recipeObj.id}`} passHref>
-            <Button variant="primary" className="w-100 mb-2">
-              View Details
+            <Button
+              variant="primary"
+              className="btn-analog btn-analog-primary"
+              style={{
+                width: '100%',
+                marginBottom: '0.5rem',
+                fontSize: '10px',
+              }}
+            >
+              📖 VIEW FORMULA
             </Button>
           </Link>
+
           {isCreator && (
-            <div className="d-flex gap-2">
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
               <Link href={`/formulas/edit/${recipeObj.id}`} passHref style={{ flex: 1 }}>
-                <Button variant="outline-secondary" className="w-100" type="button">
-                  Edit
+                <Button
+                  variant="outline-secondary"
+                  className="btn-analog btn-analog-secondary"
+                  style={{
+                    width: '100%',
+                    fontSize: '10px',
+                  }}
+                  type="button"
+                >
+                  ✏️ EDIT
                 </Button>
               </Link>
-              <Button variant="outline-danger" onClick={deleteThisRecipe} style={{ flex: 1 }} type="button">
-                Delete
+              <Button
+                variant="outline-danger"
+                className="btn-analog btn-analog-danger"
+                onClick={deleteThisRecipe}
+                style={{
+                  flex: 1,
+                  fontSize: '10px',
+                }}
+                type="button"
+              >
+                🗑️ DELETE
               </Button>
             </div>
           )}
+
+          {/* Creator Badge */}
+          {isCreator && (
+            <div
+              style={{
+                marginTop: '0.5rem',
+                fontSize: '8px',
+                textAlign: 'center',
+                color: 'var(--mint-green)',
+                fontFamily: 'var(--font-mono)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+              }}
+            >
+              ● Your Research
+            </div>
+          )}
         </div>
-      </Card.Body>
-    </Card>
+      </div>
+
+      {/* Laboratory Equipment Border Effect */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '4px',
+          left: '4px',
+          right: '4px',
+          bottom: '4px',
+          border: '1px solid rgba(116, 180, 155, 0.3)',
+          borderRadius: 'var(--border-radius)',
+          pointerEvents: 'none',
+        }}
+      />
+    </div>
   );
 }
 
