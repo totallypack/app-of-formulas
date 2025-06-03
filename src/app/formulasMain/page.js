@@ -26,7 +26,7 @@ export default function FormulaMain() {
 
         const missingKeys = allRecipes.filter((recipe) => !recipe.id);
         if (missingKeys.length > 0) {
-          console.warn('Some recipes are missing id:', missingKeys);
+          console.warn('Some formulas are missing id:', missingKeys);
         }
 
         setRecipes(allRecipes);
@@ -69,7 +69,7 @@ export default function FormulaMain() {
     if (loading) {
       return (
         <div className="text-center py-5">
-          <p>Loading Recipes...</p>
+          <p>Loading Formulas...</p>
         </div>
       );
     }
@@ -78,15 +78,15 @@ export default function FormulaMain() {
       if (activeTab === 'all') {
         return (
           <div className="text-center py-5">
-            <p>No Recipes found matching your search.</p>
+            <p>No Formulas found matching your search.</p>
           </div>
         );
       }
       return (
         <div className="text-center py-5">
-          <p>You haven't created any recipes yet.</p>
+          <p>You haven't created any formulas yet.</p>
           <Button variant="primary" as="a" href="formula/new" className="mt-3">
-            Create Your First Recipe
+            Create Your First Formula
           </Button>
         </div>
       );
@@ -107,26 +107,26 @@ export default function FormulaMain() {
     <div className="formula-main-page">
       <Container className="py-5">
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1>Recipes</h1>
+          <h1>FORMULAS</h1>
           <Button variant="primary" as="a" href="/formulas/new">
-            Create New Recipe
+            Create New Formula
           </Button>
         </div>
 
         <Tabs activeKey={activeTab} onSelect={(k) => setActiveTab(k)} className="mb-4">
-          <Tab eventKey="all" title="All Recipes">
+          <Tab eventKey="all" title="All Formulas">
             {/* Search Bar */}
             <div className="mb-4">
               <InputGroup>
-                <Form.Control placeholder="Search Recipes..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                <Form.Control placeholder="Search Formulas..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 <Button variant="outline-secondary" onClick={() => setSearchTerm('')}>
                   Clear
                 </Button>
               </InputGroup>
             </div>
           </Tab>
-          <Tab eventKey="yours" title="Your Recipes">
-            <p className="mb-4">Recipes you've created</p>
+          <Tab eventKey="yours" title="Your Formulas">
+            <p className="mb-4">Formulas you've created</p>
           </Tab>
         </Tabs>
 

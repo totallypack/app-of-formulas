@@ -65,7 +65,6 @@ export default function RecipeForm({ obj = initialState }) {
     setIsSubmitting(true);
 
     if (formInput.id) {
-      // Update existing formula
       updateRecipe(formInput)
         .then(() => {
           console.log('Formula updated successfully');

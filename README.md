@@ -11,19 +11,31 @@ The ideal user of this app is someone who wants to learn how the world around th
 Allowing several users to create and share formulas.
 Keep up with their hobbies and discover knwledge related to it.
 The user has full customization of their own formulas.
-The user can learn about new things every time they log in.
+The user can learn about new things every time they log in with a Random Formula feature.
 
 WALKTHROUGH OF APP OF FORMULAS:
+https://www.loom.com/share/60c72b3fbb45444794baf3cb16436f8e?sid=d979ae49-8e90-4997-88d5-466b2b2601af
 
+![1st screenshot](public/images/MVP 1.png)
+![2nd screenshot](public/images/MVP 2.png)
+![3rd screenshot](public/images/MVP 3.png)
+
+WIREFRAME AND ERD:
+https://app.diagrams.net/?splash=0#G119uXUVbwyVTeBRUapWFmBcFWqUv_DAfY#%7B%22pageId%22%3A%22yC0dfsThMRpy-qJWlGmE%22%7D
+https://dbdiagram.io/d/app-of-formulas-682274325b2fc4582f494dad
+
+MY PROJECT BOARD:
+https://github.com/users/totallypack/projects/4/views/1
 
 DEPLOYED:
 https://appofformulas.netlify.app/
 
 LESSONS LEARNED:
-Learned how to split a job up into iterations or sprints using a project planner and the issues system.
-Learned how to divide a project between several developers.
-Learned how to handle merge conflicts.
-Learned how to work with developers using different coding styles.
+Learned to keep things labeled.
+I learned a new way to read/write. https://firebase.google.com/docs/database/web/read-and-write
+Learned about using @extend which enables me to write more semantic HTML markup. Instead of adding multiple Bootstrap utility classes directly in my HTML I can define a custom class in my CSS and extend the desired Bootstrap class.
+Learned ha lot more about CSS.
+Learned a little more about hooks.
 
 CONTRIBUTORS:
 Christopher Pack https://github.com/totallypack
