@@ -273,15 +273,6 @@ function HobbyCard({ userHobby, onFavoriteUpdate }) {
                 📖 View Details
               </Button>
             </Link>
-
-            {/* Link to Related Formulas (if category matches) */}
-            {userHobby.category && (
-              <Link href={`/formulasMain?category=${userHobby.category}`} passHref>
-                <Button className="btn-analog btn-analog-secondary" style={{ fontSize: '11px' }}>
-                  🧪 Related Formulas
-                </Button>
-              </Link>
-            )}
           </div>
         </div>
       )}

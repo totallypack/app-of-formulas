@@ -40,29 +40,72 @@ Learned a more detailed data structure in firebase that allows multiple people t
 
 FIREBASE LEARNING RESOURCES:
 Official Firebase Documentation:
-Firebase Realtime Database - https://firebase.google.com/docs/database
-Structure Your Database | Firebase Realtime Database - https://firebase.google.com/docs/database/web/structure-data
-Saving Data | Firebase Realtime Database - https://firebase.google.com/docs/database/admin/save-data
-Work with Lists of Data on the Web | Firebase Realtime Database - https://firebase.google.com/docs/database/web/lists-of-data
-Optimize Database Performance | Firebase Realtime Database - https://firebase.google.com/docs/database/usage/optimize
-Index Your Data | Firebase Realtime Database - https://firebase.google.com/docs/database/security/indexing-data
-Understand Firebase Realtime Database Security Rules - https://firebase.google.com/docs/database/security
-Use conditions in Realtime Database Security Rules - https://firebase.google.com/docs/database/security/rules-conditions
-Realtime Database Limits | Firebase Realtime Database - https://firebase.google.com/docs/database/usage/limits
-Scale with Multiple Databases | Firebase Realtime Database - https://firebase.google.com/docs/database/usage/sharding
-Firebase Realtime Database | Store and sync data in realtime - https://firebase.google.com/products/realtime-database
+
+Firebase Realtime Database - 
+https://firebase.google.com/docs/database
+
+Structure Your Database | Firebase Realtime Database - 
+https://firebase.google.com/docs/database/web/structure-data
+
+Saving Data | Firebase Realtime Database - 
+https://firebase.google.com/docs/database/admin/save-data
+
+Work with Lists of Data on the Web | Firebase Realtime Database - 
+https://firebase.google.com/docs/database/web/lists-of-data
+
+Optimize Database Performance | Firebase Realtime Database - 
+https://firebase.google.com/docs/database/usage/optimize
+
+Index Your Data | Firebase Realtime Database - 
+https://firebase.google.com/docs/database/security/indexing-data
+
+Understand Firebase Realtime Database Security Rules - 
+https://firebase.google.com/docs/database/security
+
+Use conditions in Realtime Database Security Rules - 
+https://firebase.google.com/docs/database/security/rules-conditions
+
+Realtime Database Limits | Firebase Realtime Database - 
+https://firebase.google.com/docs/database/usage/limits
+
+Scale with Multiple Databases | Firebase Realtime Database - 
+https://firebase.google.com/docs/database/usage/sharding
+
+Firebase Realtime Database | Store and sync data in realtime - 
+https://firebase.google.com/products/realtime-database
+
 GitHub Resources:
-Common Database Rules for Firebase - https://gist.github.com/codediodeio/6dbce1305b9556c2136492522e2100f6
-Stack Overflow & Development Communities
-Firebase Realtime Database: Good Practice (Filter, Ordering, etc..) - https://stackoverflow.com/questions/65176802/firebase-realtime-database-good-practice-filter-ordering-etc
-How to improve performance in Firebase real time database - https://stackoverflow.com/questions/57037239/how-to-improve-performance-in-firebase-real-time-database
-Firebase RTDB: Read data using pagination takes a lot of time - https://stackoverflow.com/questions/79317527/firebase-rtdb-read-data-using-pagination-takes-a-lot-of-time
+
+Common Database Rules for Firebase - 
+https://gist.github.com/codediodeio/6dbce1305b9556c2136492522e2100f6
+
+Stack Overflow & Development Communities:
+
+Firebase Realtime Database: Good Practice (Filter, Ordering, etc..) - 
+https://stackoverflow.com/questions/65176802/firebase-realtime-database-good-practice-filter-ordering-etc
+
+How to improve performance in Firebase real time database - 
+https://stackoverflow.com/questions/57037239/how-to-improve-performance-in-firebase-real-time-database
+
+Firebase RTDB: Read data using pagination takes a lot of time -
+https://stackoverflow.com/questions/79317527/firebase-rtdb-read-data-using-pagination-takes-a-lot-of-time
+
 Developer Resources & Tutorials:
-Denormalization: How, When and Why (part2) | Codementor - https://www.codementor.io/@nwankwo.c.michael/denormalization-how-when-and-why-part2-ciu7f6vnj
-Firebase Realtime Database - Mindbowser - https://www.mindbowser.com/firebase-real-time-database/
-Firebase Realtime Database - A Beginner's Guide for Ionic Developers - https://moldstud.com/articles/p-firebase-realtime-database-a-beginners-guide-for-ionic-developers
-Introduction | Full-Stack Firebase - https://www.fullstackfirebase.com/realtime-database/introduction
-3 Pillars Only Senior Developers Know About Firebase and Firestore Databases - https://dev.to/this-is-learning/3-pillars-only-senior-developers-know-about-firebase-and-firestore-databases-oe0
+
+Denormalization: How, When and Why (part2) | Codementor - 
+https://www.codementor.io/@nwankwo.c.michael/denormalization-how-when-and-why-part2-ciu7f6vnj
+
+Firebase Realtime Database - Mindbowser - 
+https://www.mindbowser.com/firebase-real-time-database/
+
+Firebase Realtime Database - A Beginner's Guide for Ionic Developers - 
+https://moldstud.com/articles/p-firebase-realtime-database-a-beginners-guide-for-ionic-developers
+
+Introduction | Full-Stack Firebase - 
+https://www.fullstackfirebase.com/realtime-database/introduction
+
+3 Pillars Only Senior Developers Know About Firebase and Firestore Databases - 
+https://dev.to/this-is-learning/3-pillars-only-senior-developers-know-about-firebase-and-firestore-databases-oe0
 
 CONTRIBUTORS:
 Christopher Pack https://github.com/totallypack
