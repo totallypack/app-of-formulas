@@ -330,7 +330,7 @@ export default function HobbiesMain() {
       {/* Footer */}
       <footer className="footer-analog">
         <Container className="text-center">
-          <p className="mb-0">© 1950-2025 Research Laboratory Systems • All Rights Reserved</p>
+          <p className="mb-0">© 1950-2025 App of Formulas • All Rights Reserved</p>
         </Container>
       </footer>
     </div>
