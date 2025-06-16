@@ -2,20 +2,44 @@
 
 /* eslint-disable @next/next/no-img-element */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
-import { deleteRecipe, toggleFavorite } from '@/api/recipeData';
+import { deleteRecipe } from '@/api/recipeData';
+import { toggleFavorite, isItemFavorited } from '@/api/favoritesData';
 import { useAuth } from '@/utils/context/authContext';
 
 export default function RecipeCard({ recipeObj, onUpdate }) {
   const [isUpdating, setIsUpdating] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [loadingFavoriteStatus, setLoadingFavoriteStatus] = useState(true);
 
   console.log('RecipeCard received object:', recipeObj);
   console.log('RecipeCard id:', recipeObj?.id);
   const { user } = useAuth();
   const isCreator = user?.uid === (recipeObj?.uid || recipeObj?.userId);
+
+  useEffect(() => {
+    const checkFavoriteStatus = async () => {
+      if (recipeObj?.id) {
+        setLoadingFavoriteStatus(true);
+        try {
+          const favoriteStatus = await isItemFavorited(recipeObj.id);
+          setIsFavorited(favoriteStatus);
+        } catch (error) {
+          console.error('Error checking favorite status:', error);
+          setIsFavorited(false);
+        } finally {
+          setLoadingFavoriteStatus(false);
+        }
+      } else {
+        setLoadingFavoriteStatus(false);
+      }
+    };
+
+    checkFavoriteStatus();
+  }, [recipeObj?.id]);
 
   if (!recipeObj) {
     return (
@@ -53,7 +77,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
     }
   };
 
-  const handleToggleFavorite = (e) => {
+  const handleToggleFavorite = async (e) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -63,18 +87,26 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
     }
 
     setIsUpdating(true);
-    toggleFavorite(recipeObj.id, recipeObj.favorite)
-      .then(() => {
-        console.log('Recipe favorite status updated successfully');
-        onUpdate();
-      })
-      .catch((error) => {
-        console.error('Error updating favorite status:', error);
-        alert('An error occurred while updating favorite status. Please try again.');
-      })
-      .finally(() => {
-        setIsUpdating(false);
+    try {
+      console.log('Toggling favorite for recipe:', recipeObj.id, 'Current status:', isFavorited);
+
+      const newFavoriteStatus = await toggleFavorite(recipeObj.id, 'recipe', {
+        category: recipeObj.category,
+        title: recipeObj.title,
       });
+
+      setIsFavorited(newFavoriteStatus);
+      console.log('Recipe favorite status updated successfully:', newFavoriteStatus);
+
+      if (onUpdate) {
+        onUpdate();
+      }
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+      alert('An error occurred while updating favorite status. Please try again.');
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   return (
@@ -102,32 +134,9 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
             {recipeObj.title}
           </h5>
 
-          {/* Badges */}
+          {/* Badge */}
           <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0, marginLeft: '0.5rem' }}>
             <div className={`category-badge category-${recipeObj.category}`}>{recipeObj.category}</div>
-
-            {/* Favorite Badge */}
-            {recipeObj.favorite && (
-              <div
-                style={{
-                  background: 'var(--golden-yellow)',
-                  color: 'var(--deep-black)',
-                  padding: '0.25rem 0.5rem',
-                  fontSize: '8px',
-                  fontFamily: 'var(--font-mono)',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px',
-                  borderRadius: 'var(--border-radius)',
-                  border: '1px solid var(--charcoal)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.25rem',
-                }}
-              >
-                ⭐ FAV
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -236,20 +245,23 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
           {/* Secondary Actions Row */}
           <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
             <Button
-              variant={recipeObj.favorite ? 'warning' : 'outline-secondary'}
-              className={`btn-analog ${recipeObj.favorite ? 'btn-analog-primary' : 'btn-analog-secondary'}`}
+              variant={isFavorited ? 'warning' : 'outline-secondary'}
+              className={`btn-analog ${isFavorited ? 'btn-analog-primary' : 'btn-analog-secondary'}`}
               onClick={handleToggleFavorite}
-              disabled={isUpdating}
+              disabled={isUpdating || loadingFavoriteStatus}
               style={{
                 flex: 1,
                 fontSize: '10px',
-                background: recipeObj.favorite ? 'var(--golden-yellow)' : 'var(--light-gray)',
-                color: recipeObj.favorite ? 'var(--deep-black)' : 'var(--charcoal)',
+                background: isFavorited ? 'var(--golden-yellow)' : 'var(--light-gray)',
+                color: isFavorited ? 'var(--deep-black)' : 'var(--charcoal)',
               }}
               type="button"
             >
-              {recipeObj.favorite ? '⭐' : '☆'}
-              {recipeObj.favorite ? ' FAV' : ' FAV'}
+              {(() => {
+                if (loadingFavoriteStatus) return '⏳ ...';
+                if (isFavorited) return '⭐ FAV';
+                return '☆ FAV';
+              })()}
             </Button>
 
             {/* Creator Actions */}
@@ -297,7 +309,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
                   letterSpacing: '0.5px',
                 }}
               >
-                ● Your Research
+                ● Your Formula
               </div>
             )}
 
@@ -312,7 +324,7 @@ export default function RecipeCard({ recipeObj, onUpdate }) {
                 marginLeft: 'auto',
               }}
             >
-              {recipeObj.favorite ? '⭐ Favorited' : ''}
+              {!loadingFavoriteStatus && isFavorited ? '⭐ Favorited' : ''}
             </div>
           </div>
         </div>
@@ -344,7 +356,6 @@ RecipeCard.propTypes = {
     id: PropTypes.string,
     uid: PropTypes.string,
     hobbyId: PropTypes.string,
-    favorite: PropTypes.bool,
     userId: PropTypes.string,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
