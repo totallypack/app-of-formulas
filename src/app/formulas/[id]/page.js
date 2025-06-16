@@ -6,29 +6,48 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import Link from 'next/link';
-import { getSingleRecipe, toggleFavorite } from '@/api/recipeData';
+import { getSingleRecipe } from '@/api/recipeData';
+import { toggleFavorite, isItemFavorited } from '@/api/favoritesData';
 import { useAuth } from '@/utils/context/authContext';
 
 export default function ViewRecipe({ params }) {
   const [recipeDetails, setRecipeDetails] = useState({});
+  const [isFavorited, setIsFavorited] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingFavoriteStatus, setLoadingFavoriteStatus] = useState(true);
+  const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false);
   const [error, setError] = useState(null);
   const { user } = useAuth();
 
   const { id } = params;
 
   useEffect(() => {
-    setLoading(true);
-    getSingleRecipe(id)
-      .then((data) => {
+    const fetchRecipeAndFavoriteStatus = async () => {
+      try {
+        setLoading(true);
+
+        const data = await getSingleRecipe(id);
         setRecipeDetails(data);
+
+        if (data?.id) {
+          setLoadingFavoriteStatus(true);
+          const favoriteStatus = await isItemFavorited(data.id);
+          setIsFavorited(favoriteStatus);
+          setLoadingFavoriteStatus(false);
+        }
+
         setLoading(false);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error('Error fetching recipe:', err);
         setError('Failed to load recipe details');
         setLoading(false);
-      });
+        setLoadingFavoriteStatus(false);
+      }
+    };
+
+    if (id) {
+      fetchRecipeAndFavoriteStatus();
+    }
   }, [id]);
 
   const isCreator = user?.uid === (recipeDetails?.uid || recipeDetails?.userId);
@@ -49,7 +68,7 @@ export default function ViewRecipe({ params }) {
     return (
       <div className="vintage-container">
         <div className="analog-card text-center">
-          <h3 style={{ color: 'var(--vintage-red)', marginBottom: '1rem' }}>⚠️ Error Loading Formula</h3>
+          <h3 style={{ color: 'var(--vintage-red)', marginBottom: '1rem' }}>Error Loading Formula</h3>
           <p style={{ color: 'var(--warm-gray)', marginBottom: '2rem' }}>{error}</p>
           <Link href="/formulasMain">
             <Button className="btn-analog btn-analog-primary">← Return to Database</Button>
@@ -63,7 +82,7 @@ export default function ViewRecipe({ params }) {
     return (
       <div className="vintage-container">
         <div className="analog-card text-center">
-          <h3 style={{ color: 'var(--vintage-red)', marginBottom: '1rem' }}>📄 Formula Not Found</h3>
+          <h3 style={{ color: 'var(--vintage-red)', marginBottom: '1rem' }}>Formula Not Found</h3>
           <p style={{ color: 'var(--warm-gray)', marginBottom: '2rem' }}>The requested formula does not exist in the database</p>
           <Link href="/formulasMain">
             <Button className="btn-analog btn-analog-primary">← Return to Database</Button>
@@ -73,28 +92,41 @@ export default function ViewRecipe({ params }) {
     );
   }
 
-  const handleToggleFavorite = () => {
-    if (!recipeDetails.id) {
-      alert('Cannot favorite this recipe: Missing recipe ID');
+  const handleToggleFavorite = async () => {
+    if (!recipeDetails.id || isUpdatingFavorite) {
       return;
     }
 
-    toggleFavorite(recipeDetails.id, recipeDetails.favorite)
-      .then((updatedRecipe) => {
-        console.log('Recipe favorite status updated successfully');
-        setRecipeDetails(updatedRecipe);
-      })
-      .catch(() => {
-        console.error('Error updating favorite status:', error);
-        alert('An error occurred while updating favorite status. Please try again.');
-      })
-      .finally(() => {});
+    setIsUpdatingFavorite(true);
+    try {
+      console.log('Toggling favorite for recipe:', recipeDetails.id, 'Current status:', isFavorited);
+
+      const newFavoriteStatus = await toggleFavorite(recipeDetails.id, 'recipe', {
+        category: recipeDetails.category,
+        title: recipeDetails.title,
+      });
+
+      setIsFavorited(newFavoriteStatus);
+      console.log('Recipe favorite status updated successfully:', newFavoriteStatus);
+    } catch (err) {
+      console.error('Error updating favorite status:', err);
+      alert('An error occurred while updating favorite status. Please try again.');
+    } finally {
+      setIsUpdatingFavorite(false);
+    }
+  };
+
+  const getFavoriteButtonText = () => {
+    if (isUpdatingFavorite) return '⏳ Updating...';
+    if (loadingFavoriteStatus) return '⏳ Loading...';
+    if (isFavorited) return '⭐ Remove from Favorites';
+    return '☆ Add to Favorites';
   };
 
   return (
     <div className="vintage-paper" style={{ minHeight: '100vh' }}>
       <div className="vintage-container">
-        {/* Report Header */}
+        {/* Header */}
         <div className="analog-card" style={{ marginBottom: '2rem' }}>
           <div
             style={{
@@ -127,33 +159,6 @@ export default function ViewRecipe({ params }) {
                 >
                   Document Record
                 </p>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                {/* <div
-                  style={{
-                    fontSize: '10px',
-                    fontFamily: 'var(--font-mono)',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    color: 'var(--charcoal)',
-                  }}
-                >
-                  Creator
-                </div>
-                <div
-                  style={{
-                    fontSize: '12px',
-                    fontFamily: 'var(--font-mono)',
-                    fontWeight: '600',
-                    color: 'var(--deep-black)',
-                    border: '1px solid var(--charcoal)',
-                    padding: '0.25rem 0.5rem',
-                    background: 'var(--warm-white)',
-                    borderRadius: 'var(--border-radius)',
-                  }}
-                >
-                  {user?.toUpperCase() || 'UNKNOWN'}
-                </div> */}
               </div>
             </div>
           </div>
@@ -263,7 +268,8 @@ export default function ViewRecipe({ params }) {
                   <div className={`category-badge category-${recipeDetails.category}`}>{recipeDetails.category?.toUpperCase() || 'UNCLASSIFIED'}</div>
                 </div>
 
-                {recipeDetails.favorite && (
+                {/* Updated favorite status display */}
+                {!loadingFavoriteStatus && isFavorited && (
                   <div style={{ marginBottom: '1rem' }}>
                     <div
                       style={{
@@ -353,18 +359,20 @@ export default function ViewRecipe({ params }) {
                   🎛️ Control Panel
                 </h4>
 
+                {/* favorite button */}
                 <Button
-                  className={`btn-analog ${recipeDetails.favorite ? 'btn-analog-primary' : 'btn-analog-secondary'}`}
+                  className={`btn-analog ${isFavorited ? 'btn-analog-primary' : 'btn-analog-secondary'}`}
                   onClick={handleToggleFavorite}
+                  disabled={isUpdatingFavorite || loadingFavoriteStatus}
                   style={{
                     width: '100%',
                     fontSize: '11px',
                     marginBottom: '0.75rem',
-                    background: recipeDetails.favorite ? 'var(--golden-yellow)' : 'var(--light-gray)',
-                    color: recipeDetails.favorite ? 'var(--deep-black)' : 'var(--charcoal)',
+                    background: isFavorited ? 'var(--golden-yellow)' : 'var(--light-gray)',
+                    color: isFavorited ? 'var(--deep-black)' : 'var(--charcoal)',
                   }}
                 >
-                  {recipeDetails.favorite ? '⭐ Remove from Favorites' : '☆ Add to Favorites'}
+                  {getFavoriteButtonText()}
                 </Button>
 
                 {isCreator ? (

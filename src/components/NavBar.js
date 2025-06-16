@@ -20,50 +20,49 @@ export default function NavBar() {
 
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
-            <Link className="nav-link" href="/profileMain">
-              Profile
-            </Link>
             <Link className="nav-link" href="/aboutMain">
               About
+            </Link>
+            <Link className="nav-link" href="/instructionMain">
+              Instruction
             </Link>
             <Link className="nav-link" href="/formulasMain">
               Formulas
             </Link>
             <Link className="nav-link" href="/hobbiesMain">
-              Hobbies
-            </Link>
-            <Link className="nav-link" href="/instructionMain">
-              Instruction
+              Subjects
             </Link>
           </Nav>
 
           {user && (
             <div className="d-flex align-items-center">
               <div className="d-flex align-items-center me-3">
-                {user.photoURL ? (
-                  <Image src={user.photoURL} alt="Profile" width={36} height={36} roundedCircle className="navbar-profile-img" style={{ border: '2px solid var(--mint-green)' }} />
-                ) : (
-                  <div
-                    className="navbar-profile-placeholder analog-glow"
-                    style={{
-                      width: '36px',
-                      height: '36px',
-                      borderRadius: '50%',
-                      background: 'var(--mint-green)',
-                      color: 'var(--charcoal)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontWeight: '600',
-                      border: '2px solid var(--charcoal)',
-                    }}
-                  >
-                    {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
-                  </div>
-                )}
-                <span className="text-white ms-2 d-none d-md-inline" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
-                  {user.displayName}
-                </span>
+                <Link className="nav-link" href="/profileMain">
+                  {user.photoURL ? (
+                    <Image src={user.photoURL} alt="Profile" width={36} height={36} roundedCircle className="navbar-profile-img" style={{ border: '2px solid var(--mint-green)' }} />
+                  ) : (
+                    <div
+                      className="navbar-profile-placeholder analog-glow"
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        background: 'var(--mint-green)',
+                        color: 'var(--charcoal)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontWeight: '600',
+                        border: '2px solid var(--charcoal)',
+                      }}
+                    >
+                      {user.displayName ? user.displayName.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                  )}
+                  <span className="text-white ms-2 d-none d-md-inline" style={{ fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                    {user.displayName}
+                  </span>
+                </Link>
               </div>
 
               <Button variant="light" size="sm" onClick={signOut} className="btn-analog btn-analog-danger" style={{ fontSize: '10px' }}>
