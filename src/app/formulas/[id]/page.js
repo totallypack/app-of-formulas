@@ -466,96 +466,6 @@ export default function ViewRecipe({ params }) {
                   </p>
                 </div>
               </div>
-
-              {/* Metadata */}
-              <div
-                style={{
-                  background: 'var(--light-gray)',
-                  padding: '1.5rem',
-                  border: '2px solid var(--charcoal)',
-                  borderRadius: 'var(--border-radius)',
-                }}
-              >
-                <h3
-                  style={{
-                    fontSize: '14px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    color: 'var(--charcoal)',
-                    marginBottom: '1rem',
-                    borderBottom: '1px solid var(--warm-gray)',
-                    paddingBottom: '0.5rem',
-                  }}
-                >
-                  Metadata
-                </h3>
-
-                <Row>
-                  <Col md={6}>
-                    <div style={{ marginBottom: '1rem' }}>
-                      <div
-                        style={{
-                          fontSize: '10px',
-                          fontFamily: 'var(--font-mono)',
-                          textTransform: 'uppercase',
-                          letterSpacing: '1px',
-                          color: 'var(--warm-gray)',
-                          marginBottom: '0.25rem',
-                        }}
-                      >
-                        Documentation Date
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '12px',
-                          fontFamily: 'var(--font-mono)',
-                          color: 'var(--charcoal)',
-                          fontWeight: '600',
-                        }}
-                      >
-                        {recipeDetails.created_at
-                          ? new Date(recipeDetails.created_at).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric',
-                            })
-                          : 'Date Unknown'}
-                      </div>
-                    </div>
-                  </Col>
-
-                  <Col md={12}>
-                    <div>
-                      <div
-                        style={{
-                          fontSize: '10px',
-                          fontFamily: 'var(--font-mono)',
-                          textTransform: 'uppercase',
-                          letterSpacing: '1px',
-                          color: 'var(--warm-gray)',
-                          marginBottom: '0.25rem',
-                        }}
-                      >
-                        Notes
-                      </div>
-                      <div
-                        style={{
-                          fontSize: '11px',
-                          fontFamily: 'var(--font-mono)',
-                          color: 'var(--warm-gray)',
-                          fontStyle: 'italic',
-                          padding: '0.5rem',
-                          background: 'var(--warm-white)',
-                          border: '1px dashed var(--warm-gray)',
-                          borderRadius: 'var(--border-radius)',
-                        }}
-                      >
-                        Formula archived in laboratory database • Follow standard safety protocols • Refer to research documentation for complete methodology
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
             </div>
           </Col>
         </Row>
@@ -564,7 +474,7 @@ export default function ViewRecipe({ params }) {
       {/* Footer */}
       <footer className="footer-analog">
         <Container className="text-center">
-          <p className="mb-0">© 1950-2025 Formula Laboratory Systems • Confidential Research Documentation</p>
+          <p className="mb-0">© 1950-2025 App of Formula</p>
         </Container>
       </footer>
     </div>

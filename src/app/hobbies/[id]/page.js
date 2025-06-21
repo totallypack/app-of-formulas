@@ -123,7 +123,16 @@ export default function HobbyDetails({ params }) {
       <div className="vintage-container">
         <div className="loading-analog">
           <div style={{ textAlign: 'center' }}>
-            <div style={{ marginBottom: '1rem', fontSize: '12px', textTransform: 'uppercase', letterSpacing: '1px' }}>Loading Subject Details...</div>
+            <div
+              style={{
+                marginBottom: '1rem',
+                fontSize: '12px',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+              }}
+            >
+              Loading Subject Details...
+            </div>
           </div>
         </div>
       </div>
@@ -206,7 +215,7 @@ export default function HobbyDetails({ params }) {
             </Button>
           </div>
 
-          <h1 style={{ color: 'var(--deep-black)', margin: 0, fontSize: '1.8rem', marginBottom: '0.5rem' }}>{hobby.title || 'Untitled Research Log'}</h1>
+          <h1 style={{ color: 'var(--deep-black)', margin: 0, fontSize: '1.8rem', marginBottom: '0.5rem' }}>{hobby.title || 'Untitled'}</h1>
 
           <div
             style={{
@@ -223,6 +232,7 @@ export default function HobbyDetails({ params }) {
                 backgroundColor: getCategoryColor(hobby.category),
                 color: 'var(--warm-white)',
                 fontSize: '10px',
+                textTransform: 'uppercase',
                 padding: '0.5rem 1rem',
                 border: '1px solid var(--charcoal)',
               }}
