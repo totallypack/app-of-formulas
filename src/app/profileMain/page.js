@@ -310,7 +310,7 @@ export default function UserComponent() {
                       color: 'var(--charcoal)',
                     }}
                   >
-                    {userProfile.name || 'Unknown Researcher'}
+                    {userProfile.name || 'Unknown'}
                   </div>
                 </div>
 
@@ -602,6 +602,7 @@ export default function UserComponent() {
                                   backgroundColor: getCategoryColor(subject.category),
                                   color: 'var(--warm-white)',
                                   fontSize: '9px',
+                                  textTransform: 'uppercase',
                                   padding: '0.25rem 0.75rem',
                                   border: '1px solid var(--charcoal)',
                                 }}
@@ -703,6 +704,7 @@ export default function UserComponent() {
                                   backgroundColor: getCategoryColor(formula.category),
                                   color: 'var(--warm-white)',
                                   fontSize: '9px',
+                                  textTransform: 'uppercase',
                                   padding: '0.25rem 0.75rem',
                                   border: '1px solid var(--charcoal)',
                                 }}

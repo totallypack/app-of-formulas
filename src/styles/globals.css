@@ -22,7 +22,7 @@
   --font-mono: 'Space Mono', 'IBM Plex Mono', monospace;
   --font-sans: 'IBM Plex Mono', monospace;
   
-  /* Spacing based on analog grid systems */
+  /* Spacing based on analog grid */
   --grid-unit: 8px;
   --border-radius: 2px;
 }
@@ -68,7 +68,7 @@ p {
   color: var(--warm-gray);
 }
 
-/* Analog-Inspired Components */
+/* Components */
 .vintage-container {
   max-width: 1200px;
   margin: 0 auto;
