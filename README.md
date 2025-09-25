@@ -9,7 +9,7 @@ This app hopes to educate and remove some of the mystery from the world that sur
 DESCRIPTION OF USER:
 The ideal user of this app is someone who wants to learn how the world around them works. The ways they can do that include:
 Allowing several users to create and share formulas.
-Keep up with their hobbies and discover knwledge related to it.
+Keep up with their hobbies and discover knowledge related to it.
 The user has full customization of their own formulas.
 The user can learn about new things every time they log in with a Random Formula feature.
 
